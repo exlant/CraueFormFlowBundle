@@ -36,8 +36,10 @@ class CraueFormFlowExtension extends Extension implements CompilerPassInterface 
 	 * {@inheritDoc}
 	 */
 	public function process(ContainerBuilder $container) {
+		$baseFlowDefinitionMethodCalls = $container->getDefinition('craue.form.flow')->getMethodCalls();
+
 		foreach (array_keys($container->findTaggedServiceIds(self::FORM_FLOW_TAG)) as $id) {
-			$container->findDefinition($id)->setParent('craue.form.flow');
+			$container->findDefinition($id)->setMethodCalls($baseFlowDefinitionMethodCalls);
 		}
 	}
 
